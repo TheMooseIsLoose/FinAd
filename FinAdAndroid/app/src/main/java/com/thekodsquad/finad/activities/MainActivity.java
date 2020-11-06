@@ -58,4 +58,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void generateReport(View view) {
+        Intent intent = new Intent(this, WeeklyReportActivity.class);
+        startActivity(intent);
+    }
 }

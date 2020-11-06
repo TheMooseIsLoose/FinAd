@@ -30,7 +30,7 @@ public class Transaction {
         }
     }
 
-    Transaction(Calendar timestamp, BigDecimal amount, BigDecimal balance, String category, int id) {
+    public Transaction(Calendar timestamp, BigDecimal amount, BigDecimal balance, String category, int id) {
         this.timestamp = timestamp;
         this.amount = amount;
         this.balance = balance;
