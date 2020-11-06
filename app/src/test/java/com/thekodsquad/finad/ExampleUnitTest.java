@@ -1,4 +1,4 @@
-package com.teamkodsquad.finad;
+package com.thekodsquad.finad;
 
 import org.junit.Test;
 
