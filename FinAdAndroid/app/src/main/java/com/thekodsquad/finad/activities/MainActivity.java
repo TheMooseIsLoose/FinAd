@@ -1,4 +1,4 @@
-package com.thekodsquad.finad;
+package com.thekodsquad.finad.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -12,6 +12,10 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+
+import com.thekodsquad.finad.Loader;
+import com.thekodsquad.finad.NotificationHelper;
+import com.thekodsquad.finad.R;
 
 import java.util.ArrayList;
 
@@ -33,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void loadData(View view) {
         NotificationHelper.testNotifications(this);
+        Intent intent = new Intent(this, OverviewActivity.class);
+        startActivity(intent);
     }
 
     private void createNotificationChannel() {
