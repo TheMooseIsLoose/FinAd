@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="FinAdLib:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/FinAdLib_jar</output-path>
+    <root id="archive" name="FinAdLib.jar">
+      <element id="module-output" name="FinAdLib" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/commons-csv/commons-csv-1.8/commons-csv-1.8.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/commons-io/commons-io-2.8.0/commons-io-2.8.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
