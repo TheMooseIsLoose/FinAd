@@ -49,7 +49,8 @@ public class Main {
         for (Map.Entry<String, Account> entry : accounts.entrySet()) {
             Account account = entry.getValue();
             //print("accountNumber: " + account.getAccountNumber() + "   " + "balance: " + account.getBalance());
-            print(account.getSpendingPerCategory().get("Ruoka_paivittaistavarakauppa").toString());
+            //print(account.getSpendingPerCategory("Ruoka_paivittaistavarakauppa").toString());
+            //print(account.getSpendingPerEntryType(Transaction.EntryType.deposit).toString());
         }
     }
 

@@ -54,4 +54,8 @@ public class Transaction {
         return category;
     }
 
+    public EntryType getEntryType() {
+        return entryType;
+    }
+
 }
