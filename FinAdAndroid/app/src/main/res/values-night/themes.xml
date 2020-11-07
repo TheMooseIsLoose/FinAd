@@ -2,18 +2,40 @@
     <!-- Base application theme. -->
     <style name="Theme.FinAd" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">@color/orange_main</item>
+        <item name="colorPrimaryVariant">@color/orange_secondary</item>
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondary">@color/green</item>
+        <item name="colorSecondaryVariant">@color/green_secondary</item>
+        <item name="colorOnSecondary">@color/primary_text</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/dark_bottom_background</item>
         <!-- Customize your theme here. -->
-        <item name="android:windowBackground">@color/black</item>
-        <item name='fontFamily'>@font/glacialindifference_regular</item>
+        <item name="android:windowBackground">@color/dark_primary_background</item>
+        <item name="android:textColor">@color/primary_text</item>
+        <item name='fontFamily'>@font/barlow_regular</item>
 
     </style>
 </resources>
+
+<!--
+<resources xmlns:tools="http://schemas.android.com/tools">
+&lt;!&ndash; Base application theme. &ndash;&gt;
+<style name="Theme.FinAd" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    &lt;!&ndash; Primary brand color. &ndash;&gt;
+    <item name="colorPrimary">@color/purple_200</item>
+    <item name="colorPrimaryVariant">@color/purple_700</item>
+    <item name="colorOnPrimary">@color/black</item>
+    &lt;!&ndash; Secondary brand color. &ndash;&gt;
+    <item name="colorSecondary">@color/teal_200</item>
+    <item name="colorSecondaryVariant">@color/teal_200</item>
+    <item name="colorOnSecondary">@color/black</item>
+    &lt;!&ndash; Status bar color. &ndash;&gt;
+    <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+    &lt;!&ndash; Customize your theme here. &ndash;&gt;
+    <item name="android:windowBackground">@color/black</item>
+    <item name='fontFamily'>@font/barlow_regular</item>
+
+</style>
+</resources>-->

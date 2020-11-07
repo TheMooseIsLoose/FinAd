@@ -8,4 +8,20 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background">#965AEA</color>
+    
+    <color name="orange_main">#FF7522</color>
+    <color name="orange_secondary">#CC5F1B</color>
+    <color name="yellow">#ebe000</color>
+    <color name="blue">#007aff</color>
+    <color name="purple">#d200f0</color>
+    <color name="green">#00ff86</color>
+    <color name="green_secondary">#00CC6D</color>
+
+    <color name="primary_text">#d4d3d2</color>
+
+    <color name="dark_primary_background">#717172</color>
+    <color name="dark_secondary_background">#202021</color>
+
+    <color name="dark_bottom_background">#3f3f40</color>
+
 </resources>
