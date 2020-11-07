@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -91,15 +92,33 @@ public class OverviewFragment extends Fragment {
         LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
         dataSet.setColor(getActivity().getColor(R.color.purple_200));
         dataSet.setDrawCircles(false);
+        dataSet.setDrawValues(false);
         //dataSet.setValueTextColor(getColor(R.color.design_default_color_primary)); // styling, ...
 
         LineData lineData = new LineData(dataSet);
         //chart.setBackgroundColor(getColor(R.color.white));
         chart.setData(lineData);
         chart.setDrawGridBackground(false);
-        chart.getAxisLeft().setDrawGridLines(false);
-        chart.getAxisRight().setDrawGridLines(false);
-        chart.getXAxis().setDrawGridLines(false);
+
+        AxisBase lAxis = chart.getAxisLeft();
+
+        //chart.getAxisRight().setDrawLabels(false);
+        chart.getAxisRight().setEnabled(false);
+        //chart.getAxisLeft().setDrawLabels(false);
+        lAxis.setEnabled(true);
+        lAxis.setGridColor(getActivity().getColor(R.color.white));
+        lAxis.setTextColor(getActivity().getColor(R.color.white));
+        lAxis.setAxisLineColor(getActivity().getColor(R.color.white));
+        lAxis.setGranularity(1f);
+        lAxis.setAxisLineWidth(2f);
+        lAxis.setGridLineWidth(2f);
+        //chart.getAxisLeft().setDrawGridLines(false);
+        //chart.getAxisRight().setDrawGridLines(false);
+        //chart.getXAxis().setDrawGridLines(false);
+        chart.getXAxis().setEnabled(false);
+        chart.getLegend().setEnabled(false);
+        chart.getDescription().setEnabled(false);
+
         chart.setDrawBorders(false);
         chart.invalidate(); // refresh
     }

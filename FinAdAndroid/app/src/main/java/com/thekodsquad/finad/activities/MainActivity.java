@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                     navController.navigate(R.id.budgetFragment);
                 }
                 if (item.getItemId() == R.id.statistics_item) {
-                    navController.navigate(R.id.overviewFragment);
+                    navController.navigate(R.id.statisticsFragment);
                 }
                 return true;
             }
