@@ -97,12 +97,12 @@ public class BudgetFragment extends Fragment {
         entries.add(new PieEntry(15f, "Saving"));
         PieDataSet set = new PieDataSet(entries, "Budget");
         set.setColors(getContext().getColor(R.color.orange_main),
-                getContext().getColor(R.color.orange_secondary),
+                getContext().getColor(R.color.purple),
                 getContext().getColor(R.color.yellow),
                 getContext().getColor(R.color.blue),
                 getContext().getColor(R.color.green),
                 getContext().getColor(R.color.green_secondary),
-                getContext().getColor(R.color.purple)
+                getContext().getColor(R.color.orange_secondary)
                 );
         set.setDrawValues(false);
         set.setValueLineColor(Color.WHITE);
@@ -110,6 +110,7 @@ public class BudgetFragment extends Fragment {
         set.setValueLinePart1Length(0.43f);
         set.setValueLinePart2Length(.1f);
         set.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+
         budgetChart.setHoleRadius(50);
         budgetChart.getLegend().setEnabled(false);
         budgetChart.setEntryLabelColor(Color.WHITE);

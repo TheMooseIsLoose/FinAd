@@ -1,5 +1,7 @@
 package com.thekodsquad.finad.activities;
 
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -93,6 +95,9 @@ public class OverviewFragment extends Fragment {
     private void configureLineGraph(View view) {
         LineChart chart = (LineChart) view.findViewById(R.id.chart);
 
+        //AssetManager assetManager = getContext().getAssets();
+        //Typeface tf = Typeface.createFromAsset(assetManager, "font/barlow_regular.ttf");
+
         List<Entry> entries = new ArrayList<Entry>();
         int day = 1;
         BigDecimal spent = BigDecimal.ZERO;
@@ -150,7 +155,7 @@ public class OverviewFragment extends Fragment {
         limit.setLineColor(getActivity().getColor(R.color.orange_main));
         limit.enableDashedLine(10, 4f, 0);
         limit.setLineWidth(getContext().getResources().getInteger(R.integer.limit_line_width));
-
+        limit.setLabel("Budget: 1000 EUR");
         limit.setTextColor(getActivity().getColor(R.color.orange_main));
         limit.setTextSize(16);
 
