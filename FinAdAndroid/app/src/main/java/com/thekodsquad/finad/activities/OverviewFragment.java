@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,15 @@ import com.github.mikephil.charting.formatter.IFillFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.thekodsquad.finad.R;
+import com.thekodsquad.finad.sta.Account;
 import com.thekodsquad.finad.sta.Transaction;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -87,14 +93,27 @@ public class OverviewFragment extends Fragment {
         LineChart chart = (LineChart) view.findViewById(R.id.chart);
 
         List<Entry> entries = new ArrayList<Entry>();
-        int day = 0;
+        int day = 1;
         BigDecimal spent = BigDecimal.ZERO;
+        BigDecimal spentCurrentDate = BigDecimal.ZERO;
         for (Transaction trans : MainActivity.account.getTransactions()) {
             if (trans.getAmount().compareTo(BigDecimal.ZERO) > 0) continue;
-            spent = spent.subtract(trans.getAmount());
-            entries.add(new Entry(day, spent.floatValue()));
-            day++;
+            int date = trans.getTimestamp().get(Calendar.DATE);
+            if (day == date) {
+                spentCurrentDate = spentCurrentDate.subtract(trans.getAmount());
+            } else {
+                spent = spent.add(spentCurrentDate);
+                entries.add(new Entry(day, spent.floatValue()));
+                for (int i = day + 1; i < date; i++) {
+                    entries.add(new Entry(i, spent.floatValue()));
+                }
+                day = date;
+                spentCurrentDate = trans.getAmount().abs();
+            }
         }
+        entries.add(new Entry(day, spent.add(spentCurrentDate).floatValue()));
+
+
 
         LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
         dataSet.setColor(getActivity().getColor(R.color.purple_200));
@@ -111,8 +130,17 @@ public class OverviewFragment extends Fragment {
         //dataSet.setValueTextColor(getColor(R.color.design_default_color_primary)); // styling, ...
 
         LineData lineData = new LineData(dataSet);
+
+        List<Entry> regressionEntries = new ArrayList<>();
+        Pair<BigDecimal, BigDecimal> regression = generateRegression();
+        regressionEntries.add(entries.get(entries.size() - 1));
+        regressionEntries.add(new Entry(regression.first.floatValue(), regression.second.floatValue()));
+        LineDataSet regressionDataSet = new LineDataSet(regressionEntries, "Regression");
+        regressionDataSet.enableDashedLine(0.2f, 0.1f, 0f);
+        lineData.addDataSet(regressionDataSet);
         //chart.setBackgroundColor(getColor(R.color.white));
         chart.setData(lineData);
+
 
         LimitLine limit = new LimitLine(1000);
         limit.setLineColor(getActivity().getColor(R.color.design_default_color_primary_dark));
@@ -120,8 +148,35 @@ public class OverviewFragment extends Fragment {
         chart.getAxisLeft().setAxisMaximum(1100);
         chart.getAxisLeft().setAxisMinimum(0);
 
-
         chart.invalidate(); // refresh
+    }
+
+    private Pair<BigDecimal, BigDecimal> generateRegression() {
+        // Get an account
+        Account account = MainActivity.account;
+        // Budget goal
+        BigDecimal budget = new BigDecimal("3000");
+        // Current day, or day of month to start at
+        List<Transaction> transactionList = account.getTransactions();
+        transactionList.sort(Comparator.comparing(Transaction::getTimestamp));
+
+        Calendar currentDay = transactionList.get(0).getTimestamp();
+
+        BigDecimal moneySpent = new BigDecimal(0);
+        for (Transaction transaction : transactionList) {
+            if (transaction.getAmount().compareTo(BigDecimal.ZERO) > 0) continue;
+            moneySpent = moneySpent.add(transaction.getAmount());
+        }
+
+        BigDecimal days = BigDecimal.valueOf(ChronoUnit.DAYS.between(transactionList.get(0).getTimestamp().toInstant(), transactionList.get(transactionList.size() - 1).getTimestamp().toInstant()));
+        BigDecimal moneySpentPerDay = moneySpent.divide(days, 2, RoundingMode.HALF_UP);
+        Calendar lastDay = Calendar.getInstance();
+        lastDay.set(currentDay.get(Calendar.YEAR), currentDay.get(Calendar.MONTH), currentDay.getActualMaximum(Calendar.DAY_OF_MONTH));
+        BigDecimal daysLeft = BigDecimal.valueOf(ChronoUnit.DAYS.between(currentDay.toInstant(), lastDay.toInstant()));
+        BigDecimal estMoneySpent = daysLeft.multiply(moneySpentPerDay);
+
+        return new Pair<>(daysLeft, estMoneySpent.abs());
+
     }
 
     private double[] generateData(int length) {

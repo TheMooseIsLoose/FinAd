@@ -1,3 +1,4 @@
+
 category;timestamp;valueDate;bookingDate;paymentDate;accountNumber;amount;balance;entryId;typeId;counterpartyAccountBic;reference;counterpartyAccountIban;counterparty_account_id
 Tulot;2019-01-01 00:00:00.000000000;2019-01-01;2019-01-01;2019-01-01;1;22.09;59.55;0;506;           ;1;1;177
 Ruoka_paivittaistavarakauppa;2019-01-01 13:54:23.551401869;2019-01-01;2019-01-02;2019-01-01;1;-9.47;50.08;0;162;           ;1;1;116
