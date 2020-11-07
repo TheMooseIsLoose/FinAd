@@ -22,10 +22,12 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.thekodsquad.finad.FinAdCSV;
 import com.thekodsquad.finad.Loader;
 import com.thekodsquad.finad.NotificationHelper;
 import com.thekodsquad.finad.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.thekodsquad.finad.NotificationHelper.WEEKLY_CHANNEL_ID;
@@ -42,9 +44,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        FinAdCSV csv = null;
+        try {
+            csv = new FinAdCSV(getAssets().open("test_transactions.csv"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         //Initialize Bottom Navigation View.
         BottomNavigationView navView = findViewById(R.id.bottomNavigationView);
-
 
 
         //Initialize NavController.

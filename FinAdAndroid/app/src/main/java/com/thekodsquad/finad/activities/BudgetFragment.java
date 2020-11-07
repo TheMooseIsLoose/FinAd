@@ -1,14 +1,23 @@
 package com.thekodsquad.finad.activities;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.thekodsquad.finad.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,12 +64,40 @@ public class BudgetFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_budget, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_budget, container, false);
+
+        PieChart budgetChart = view.findViewById(R.id.budgetChart);
+
+        List<PieEntry> entries = new ArrayList<>();
+        entries.add(new PieEntry(50f, "Housing"));
+        entries.add(new PieEntry(20.f, "Food"));
+        entries.add(new PieEntry(10.0f, "Leisure"));
+        entries.add(new PieEntry(5f, "Health"));
+        entries.add(new PieEntry(15f, "Saving"));
+        PieDataSet set = new PieDataSet(entries, "Budget");
+        set.setColors(Color.GREEN, Color.YELLOW, Color.RED, Color.BLUE, Color.MAGENTA);
+        set.setDrawValues(false);
+        set.setValueLinePart1OffsetPercentage(10.f);
+        set.setValueLinePart1Length(0.43f);
+        set.setValueLinePart2Length(.1f);
+        set.setValueTextColor(Color.BLACK);
+        set.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        budgetChart.setEntryLabelColor(Color.BLUE);
+        PieData data = new PieData(set);
+        budgetChart.setDrawCenterText(true);
+
+        budgetChart.setCenterText("1000 EUR");
+        budgetChart.setData(data);
+        budgetChart.invalidate(); // refresh
+
+        return view;
     }
 }

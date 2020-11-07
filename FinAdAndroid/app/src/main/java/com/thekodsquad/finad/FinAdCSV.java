@@ -6,9 +6,12 @@ import com.thekodsquad.finad.sta.Transaction;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -35,18 +38,17 @@ public class FinAdCSV {
     /*
         Uses Apache Commons csv library
      */
-    public FinAdCSV(String filePath) throws IOException {
+    public FinAdCSV(InputStream file)  {
         accounts = new HashMap<String, Account>();
-        Reader csvReader = null;
-
-        try {
-             csvReader = new FileReader(filePath);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
 
         // Iterate csv file, create and add transactions to accounts
-        Iterable<CSVRecord> records = CSVFormat.DEFAULT.withDelimiter(';').withFirstRecordAsHeader().parse(csvReader);
+        Iterable<CSVRecord> records = null;
+        try {
+            records = CSVFormat.DEFAULT.withDelimiter(';').withFirstRecordAsHeader().parse(new InputStreamReader(file));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
         for (CSVRecord record : records) {
             String category = record.get(Headers.category);
             String timestamp = record.get(Headers.timestamp.index);
