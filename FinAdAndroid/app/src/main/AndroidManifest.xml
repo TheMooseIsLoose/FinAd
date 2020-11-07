@@ -4,9 +4,10 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:logo="@mipmap/ic_ireca_icon_round"
+        android:icon="@mipmap/ic_ireca_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_ireca_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FinAd" >
         <activity android:name="com.thekodsquad.finad.activities.MainActivity">
@@ -16,6 +17,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name="com.thekodsquad.finad.IntentReceiver" android:enabled="true"
+                  android:exported="true">
+            <intent-filter android:priority="999">
+                <action android:name="com.thekodsquad.intent.action.SEND_NOTIFACTION"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

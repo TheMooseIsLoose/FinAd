@@ -20,8 +20,15 @@ public class NotificationHelper {
     private static int currentId = 0;
 
     public static void testNotifications(Context context) {
-        createSimpleNotification(context, WEEKLY_CHANNEL_ID, "New week", "Check how you manged your budget this week!", MainActivity.class);
 
+
+    }
+
+    public static void createWeek(Context context) {
+        createSimpleNotification(context, WEEKLY_CHANNEL_ID, "New week", "Check how you manged your budget this week!", MainActivity.class);
+    }
+
+    public static void createInvestment(Context context) {
         Intent testIntent = new Intent(context, MainActivity.class);
         testIntent.setAction("Invest");
         testIntent.putExtra(Notification.EXTRA_NOTIFICATION_ID, 0);
@@ -31,7 +38,11 @@ public class NotificationHelper {
         ArrayList<NotificationCompat.Action> actions = new ArrayList<NotificationCompat.Action>();
         actions.add(new NotificationCompat.Action(R.drawable.ic_stat_name, "Invest", snoozePendingIntent));
 
-        NotificationHelper.createActionNotification(context, WEEKLY_CHANNEL_ID, "End of month", "You money left over this month.", MainActivity.class, actions);
+        NotificationHelper.createActionNotification(context, WEEKLY_CHANNEL_ID, "End of month", "You have 253 EUR left this month. Would you like to invest it?", MainActivity.class, actions);
+    }
+
+    public static void createWarning(Context context) {
+        createSimpleNotification(context, WEEKLY_CHANNEL_ID, "Warning", "You are in risk of exceeding your budget for Transportation this month!", MainActivity.class);
     }
 
     public static int createSimpleNotification(Context context, String channelId, String title, String content, Class<?> activity) {
@@ -44,7 +55,9 @@ public class NotificationHelper {
                 .setSmallIcon(R.drawable.ic_stat_name)
                 .setContentTitle(title)
                 .setContentText(content)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(content))
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 
@@ -56,7 +69,9 @@ public class NotificationHelper {
                 .setSmallIcon(R.drawable.ic_stat_name)
                 .setContentTitle(title)
                 .setContentText(content)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                .setStyle(new NotificationCompat.BigTextStyle()
+                    .bigText(content))
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         for (NotificationCompat.Action action :
                 buttonActions) {
@@ -71,6 +86,7 @@ public class NotificationHelper {
         currentId = currentId + 1;
         // notificationId is a unique int for each notification that you must define
         notificationManager.notify(currentId, builder.build());
+
         return currentId;
     }
 

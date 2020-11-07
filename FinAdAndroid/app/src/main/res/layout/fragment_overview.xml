@@ -138,7 +138,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Ineca found that reduced spending within transport will improve your long term finance significantly."
+                    android:text="Ireca found that reduced spending within transport will improve your long term finance significantly."
                     android:textAppearance="@style/Theme.FinAd"
                     android:textColor="@color/primary_text"
                     android:textSize="18sp" />

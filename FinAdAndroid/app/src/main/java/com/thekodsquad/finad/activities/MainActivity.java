@@ -16,6 +16,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -23,6 +24,7 @@ import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.thekodsquad.finad.FinAdCSV;
+import com.thekodsquad.finad.IntentReceiver;
 import com.thekodsquad.finad.Loader;
 import com.thekodsquad.finad.NotificationHelper;
 import com.thekodsquad.finad.R;
@@ -52,7 +54,10 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        getApplicationContext().registerReceiver(new IntentReceiver(), new IntentFilter("com.thekodsquad.intent.action.SEND_NOTIFACTION"));
+
         account = csv.getAccount("1");
+        account.randomizCategoryBudgets();
 
         //Initialize Bottom Navigation View.
         BottomNavigationView navView = findViewById(R.id.bottomNavigationView);
@@ -93,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "weekly";
             String description = "Weekly reports";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel(WEEKLY_CHANNEL_ID, name, importance);
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance

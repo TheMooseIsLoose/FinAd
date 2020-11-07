@@ -1,5 +1,6 @@
 package com.thekodsquad.finad.sta;
 
+import java.io.Console;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -11,12 +12,14 @@ public class Account {
 
     private Map<String, BigDecimal> spendingPerCategory;
     private Map<Transaction.EntryType, BigDecimal> spendingPerEntryType;
+    private Map<String, BigDecimal> budgetPerCategory;
 
     public Account(int accountNumber) {
         this.accountNumber = accountNumber;
         transactions = new ArrayList<>();
         spendingPerCategory = new HashMap<>();
         spendingPerEntryType = new HashMap<>();
+        budgetPerCategory = new HashMap<>();
     }
 
     public BigDecimal getBalance() {
@@ -49,12 +52,34 @@ public class Account {
                 .collect(Collectors.toList());
     }
 
+    public List<Transaction> getTransactionsWithCategory(String category) {
+        return transactions.stream()
+                .filter(transaction -> transaction.getCategory().equals(category))
+                .collect(Collectors.toList());
+    }
+
     public BigDecimal getSpendingPerEntryType(Transaction.EntryType entryType) {
         return (spendingPerEntryType.get(entryType) != null) ? spendingPerEntryType.get(entryType) : new BigDecimal(0);
     }
 
     public Set<String> getSpendingCategories() {
         return spendingPerCategory.keySet();
+    }
+
+    public void randomizCategoryBudgets() {
+        Random random = new Random();
+        for (String category : getSpendingCategories()) {
+            BigDecimal spent = spendingPerCategory.get(category).abs();
+            float spentFloat = spent.floatValue();
+            float extra  = spentFloat / 10 + random.nextFloat() * (spentFloat / 2);
+
+            BigDecimal budget = spent.add(BigDecimal.valueOf(extra));
+            budgetPerCategory.put(category, budget);
+        }
+    }
+
+    public Map<String, BigDecimal> getBudgetPerCategory() {
+        return budgetPerCategory;
     }
 
     public void addTransaction(Transaction transaction) {

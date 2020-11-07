@@ -117,7 +117,7 @@ public class BudgetFragment extends Fragment {
 
         PieData data = new PieData(set);
         budgetChart.setDrawCenterText(true);
-        budgetChart.setCenterText("2000 EUR");
+        budgetChart.setCenterText("1000 EUR");
         budgetChart.setData(data);
         budgetChart.setCenterTextSize(20);
         budgetChart.getLegend().setEnabled(false);
