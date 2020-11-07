@@ -11,11 +11,17 @@ import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IFillFormatter;
+import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.thekodsquad.finad.R;
+import com.thekodsquad.finad.sta.Transaction;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,46 +86,41 @@ public class OverviewFragment extends Fragment {
     private void configureLineGraph(View view) {
         LineChart chart = (LineChart) view.findViewById(R.id.chart);
 
-        double[] data = generateData(100);
         List<Entry> entries = new ArrayList<Entry>();
-        int i = 0;
-        for (double v : data) {
-            // turn your data into Entry objects
-            entries.add(new Entry(i, (float) v));
-            i++;
+        int day = 0;
+        BigDecimal spent = BigDecimal.ZERO;
+        for (Transaction trans : MainActivity.account.getTransactions()) {
+            if (trans.getAmount().compareTo(BigDecimal.ZERO) > 0) continue;
+            spent = spent.subtract(trans.getAmount());
+            entries.add(new Entry(day, spent.floatValue()));
+            day++;
         }
 
         LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
         dataSet.setColor(getActivity().getColor(R.color.purple_200));
         dataSet.setDrawCircles(false);
         dataSet.setDrawValues(false);
+        dataSet.setDrawFilled(true);
+        dataSet.setFillFormatter(new IFillFormatter() {
+            @Override
+            public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {
+                return chart.getAxisLeft().getAxisMinimum();
+            }
+        });
+        dataSet.setFillColor(getActivity().getColor(R.color.purple_500));
         //dataSet.setValueTextColor(getColor(R.color.design_default_color_primary)); // styling, ...
 
         LineData lineData = new LineData(dataSet);
         //chart.setBackgroundColor(getColor(R.color.white));
         chart.setData(lineData);
-        chart.setDrawGridBackground(false);
 
-        AxisBase lAxis = chart.getAxisLeft();
+        LimitLine limit = new LimitLine(1000);
+        limit.setLineColor(getActivity().getColor(R.color.design_default_color_primary_dark));
+        chart.getAxisLeft().addLimitLine(limit);
+        chart.getAxisLeft().setAxisMaximum(1100);
+        chart.getAxisLeft().setAxisMinimum(0);
 
-        //chart.getAxisRight().setDrawLabels(false);
-        chart.getAxisRight().setEnabled(false);
-        //chart.getAxisLeft().setDrawLabels(false);
-        lAxis.setEnabled(true);
-        lAxis.setGridColor(getActivity().getColor(R.color.white));
-        lAxis.setTextColor(getActivity().getColor(R.color.white));
-        lAxis.setAxisLineColor(getActivity().getColor(R.color.white));
-        lAxis.setGranularity(1f);
-        lAxis.setAxisLineWidth(2f);
-        lAxis.setGridLineWidth(2f);
-        //chart.getAxisLeft().setDrawGridLines(false);
-        //chart.getAxisRight().setDrawGridLines(false);
-        //chart.getXAxis().setDrawGridLines(false);
-        chart.getXAxis().setEnabled(false);
-        chart.getLegend().setEnabled(false);
-        chart.getDescription().setEnabled(false);
 
-        chart.setDrawBorders(false);
         chart.invalidate(); // refresh
     }
 

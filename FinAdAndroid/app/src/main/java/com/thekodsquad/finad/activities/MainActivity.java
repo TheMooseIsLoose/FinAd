@@ -26,6 +26,7 @@ import com.thekodsquad.finad.FinAdCSV;
 import com.thekodsquad.finad.Loader;
 import com.thekodsquad.finad.NotificationHelper;
 import com.thekodsquad.finad.R;
+import com.thekodsquad.finad.sta.Account;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,6 +37,8 @@ import static com.thekodsquad.finad.NotificationHelper.testNotifications;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    public static Account account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        account = csv.getAccount("1");
 
         //Initialize Bottom Navigation View.
         BottomNavigationView navView = findViewById(R.id.bottomNavigationView);

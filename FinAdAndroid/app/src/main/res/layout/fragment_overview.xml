@@ -31,12 +31,12 @@
                 android:text="Overview"
                 android:textSize="36sp" />
 
-            <com.github.mikephil.charting.charts.LineChart
+            <com.thekodsquad.finad.FinAdLineChart
                 android:id="@+id/chart"
                 android:layout_width="match_parent"
                 android:layout_height="304dp">
 
-            </com.github.mikephil.charting.charts.LineChart>
+            </com.thekodsquad.finad.FinAdLineChart>
 
             <View
                 android:id="@+id/divider"

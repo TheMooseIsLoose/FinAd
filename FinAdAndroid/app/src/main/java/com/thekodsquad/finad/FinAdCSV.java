@@ -25,6 +25,10 @@ public class FinAdCSV {
 
     private Map<String, Account> accounts;
 
+    public Account getAccount(String name) {
+        return accounts.get(name);
+    }
+
     public enum Headers {
         category(0), timestamp(1), amount(6), balance(7), accountNumber(5), entryId(8);
 

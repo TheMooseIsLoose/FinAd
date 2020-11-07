@@ -38,7 +38,8 @@ public class FinAdLineChart extends LineChart {
         lAxis.setAxisLineColor(context.getColor(R.color.white));
         lAxis.setGranularity(1f);
         lAxis.setAxisLineWidth(2f);
-        lAxis.setGridLineWidth(2f);
+        lAxis.setGridLineWidth(1f);
+
         //chart.getAxisLeft().setDrawGridLines(false);
         //chart.getAxisRight().setDrawGridLines(false);
         //chart.getXAxis().setDrawGridLines(false);
