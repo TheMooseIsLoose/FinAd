@@ -1,6 +1,8 @@
 package com.thekodsquad.finad.activities;
 
+import android.content.res.AssetManager;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -93,7 +95,14 @@ public class BudgetFragment extends Fragment {
         entries.add(new PieEntry(5f, "Health"));
         entries.add(new PieEntry(15f, "Saving"));
         PieDataSet set = new PieDataSet(entries, "Budget");
-        set.setColors(Color.GREEN, Color.YELLOW, Color.RED, Color.BLUE, Color.MAGENTA);
+        set.setColors(getContext().getColor(R.color.orange_main),
+                getContext().getColor(R.color.orange_secondary),
+                getContext().getColor(R.color.yellow),
+                getContext().getColor(R.color.blue),
+                getContext().getColor(R.color.green),
+                getContext().getColor(R.color.green_secondary),
+                getContext().getColor(R.color.purple)
+                );
         set.setDrawValues(false);
         set.setValueLineColor(Color.WHITE);
         set.setValueLinePart1OffsetPercentage(10.f);
@@ -127,10 +136,10 @@ public class BudgetFragment extends Fragment {
         savingDataSet.setDrawCircles(false);
         savingDataSet.setDrawValues(false);
 
-        savingDataSet.setColor(getActivity().getColor(R.color.purple_200));
+        savingDataSet.setColor(getActivity().getColor(R.color.primary_text));
         savingDataSet.setLineWidth(3);
 
-        savingDataSet.setDrawFilled(true);
+        savingDataSet.setDrawFilled(false);
         savingDataSet.setFillFormatter(new IFillFormatter() {
             @Override
             public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {
@@ -141,7 +150,13 @@ public class BudgetFragment extends Fragment {
 
         LineData savingData = new LineData(savingDataSet);
         LimitLine limit = new LimitLine(750);
-        limit.setLineColor(getActivity().getColor(R.color.design_default_color_primary_dark));
+        limit.setLineColor(getActivity().getColor(R.color.orange_main));
+        limit.enableDashedLine(10, 4f, 0);
+        limit.setLineWidth(2);
+        limit.setLabel("Goal: 750 EUR");
+        limit.setTextColor(getActivity().getColor(R.color.orange_main));
+        limit.setTextSize(16);
+
         savingChart.getAxisLeft().addLimitLine(limit);
         savingChart.getAxisLeft().setAxisMaximum(900);
         savingChart.getAxisLeft().setAxisMinimum(0);
