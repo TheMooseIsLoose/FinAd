@@ -113,8 +113,6 @@ public class OverviewFragment extends Fragment {
         }
         entries.add(new Entry(day, spent.add(spentCurrentDate).floatValue()));
 
-
-
         LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
         dataSet.setColor(getActivity().getColor(R.color.purple_200));
         dataSet.setDrawCircles(false);
@@ -135,8 +133,12 @@ public class OverviewFragment extends Fragment {
         Pair<BigDecimal, BigDecimal> regression = generateRegression();
         regressionEntries.add(entries.get(entries.size() - 1));
         regressionEntries.add(new Entry(regression.first.floatValue(), regression.second.floatValue()));
-        LineDataSet regressionDataSet = new LineDataSet(regressionEntries, "Regression");
-        regressionDataSet.enableDashedLine(0.2f, 0.1f, 0f);
+
+        LineDataSet regressionDataSet = (LineDataSet) dataSet.copy();
+        regressionDataSet.setDrawFilled(false);
+        regressionDataSet.setDrawCircles(false);
+        regressionDataSet.setValues(regressionEntries);
+        regressionDataSet.enableDashedLine(10f, 4f, 0f);
         lineData.addDataSet(regressionDataSet);
         //chart.setBackgroundColor(getColor(R.color.white));
         chart.setData(lineData);
