@@ -3,6 +3,7 @@ package com.thekodsquad.finad.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.navigation.Navigation;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -32,12 +33,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Navigation.findNavController();
         createNotificationChannel();
     }
 
     public void loadData(View view) {
         Intent intent = new Intent(this, OverviewActivity.class);
-        startActivity(intent);
+        this.startActivity(intent);
     }
 
     private void createNotificationChannel() {
