@@ -66,6 +66,12 @@ public class Main {
         print("First transaction: " + transactionDateFormat.format(firstTransaction.getTime()));
         print("Last transaction: " + transactionDateFormat.format(lastTransaction.getTime()));
 
+        for(Map.Entry<String, Account> entry : accounts.entrySet()) {
+            entry.getValue().getBalance();
+            entry.getValue().getSpendingPerCategory("Tulot");
+            entry.getValue().getTransactions();
+        }
+
         /*
         print("Calculating income range...");
         BigDecimal minIncome = new BigDecimal("1000000.00");
