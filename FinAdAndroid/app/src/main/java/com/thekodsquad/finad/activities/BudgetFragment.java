@@ -4,16 +4,26 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.LimitLine;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.DefaultFillFormatter;
+import com.github.mikephil.charting.formatter.IFillFormatter;
+import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.thekodsquad.finad.R;
 
 import java.util.ArrayList;
@@ -85,19 +95,59 @@ public class BudgetFragment extends Fragment {
         PieDataSet set = new PieDataSet(entries, "Budget");
         set.setColors(Color.GREEN, Color.YELLOW, Color.RED, Color.BLUE, Color.MAGENTA);
         set.setDrawValues(false);
+        set.setValueLineColor(Color.WHITE);
         set.setValueLinePart1OffsetPercentage(10.f);
         set.setValueLinePart1Length(0.43f);
         set.setValueLinePart2Length(.1f);
-        set.setValueTextColor(Color.BLACK);
         set.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
-        budgetChart.setEntryLabelColor(Color.BLUE);
+        budgetChart.setHoleRadius(50);
+        budgetChart.getLegend().setEnabled(false);
+        budgetChart.setEntryLabelColor(Color.WHITE);
+
         PieData data = new PieData(set);
         budgetChart.setDrawCenterText(true);
-
-        budgetChart.setCenterText("1000 EUR");
+        budgetChart.setCenterText("2000 EUR");
         budgetChart.setData(data);
+        budgetChart.setCenterTextSize(20);
         budgetChart.invalidate(); // refresh
 
+        LineChart savingChart = view.findViewById(R.id.savingChart);
+
+        List<Entry> savingEntries = new ArrayList<>();
+        savingEntries.add(new Entry(0, 0));
+        savingEntries.add(new Entry(1, 100));
+        savingEntries.add(new Entry(2, 200));
+        savingEntries.add(new Entry(3, 150));
+        savingEntries.add(new Entry(4, 200));
+        savingEntries.add(new Entry(5, 300));
+        savingEntries.add(new Entry(6, 350));
+        savingEntries.add(new Entry(7, 400));
+
+        LineDataSet savingDataSet = new LineDataSet(savingEntries, "Savings");
+        savingDataSet.setDrawCircles(false);
+        savingDataSet.setDrawValues(false);
+
+        savingDataSet.setColor(getActivity().getColor(R.color.purple_200));
+        savingDataSet.setLineWidth(3);
+
+        savingDataSet.setDrawFilled(true);
+        savingDataSet.setFillFormatter(new IFillFormatter() {
+            @Override
+            public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {
+                return savingChart.getAxisLeft().getAxisMinimum();
+            }
+        });
+        savingDataSet.setFillColor(getActivity().getColor(R.color.purple_500));
+
+        LineData savingData = new LineData(savingDataSet);
+        LimitLine limit = new LimitLine(750);
+        limit.setLineColor(getActivity().getColor(R.color.design_default_color_primary_dark));
+        savingChart.getAxisLeft().addLimitLine(limit);
+        savingChart.getAxisLeft().setAxisMaximum(900);
+        savingChart.getAxisLeft().setAxisMinimum(0);
+        savingChart.setPinchZoom(false);
+
+        savingChart.setData(savingData);
         return view;
     }
 }
