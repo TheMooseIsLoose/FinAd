@@ -21,11 +21,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.thekodsquad.finad.activities.MainActivity" />
         </activity>
-        <activity android:name="com.thekodsquad.finad.activities.WeeklyReportActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.thekodsquad.finad.activities.MainActivity" />
-        </activity>
     </application>
 
 </manifest>

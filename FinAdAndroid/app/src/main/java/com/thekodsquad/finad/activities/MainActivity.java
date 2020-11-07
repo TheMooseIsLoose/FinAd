@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadData(View view) {
-        NotificationHelper.testNotifications(this);
         Intent intent = new Intent(this, OverviewActivity.class);
         startActivity(intent);
     }
@@ -59,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void generateReport(View view) {
-        Intent intent = new Intent(this, WeeklyReportActivity.class);
-        startActivity(intent);
+        NotificationHelper.testNotifications(this);
     }
 }

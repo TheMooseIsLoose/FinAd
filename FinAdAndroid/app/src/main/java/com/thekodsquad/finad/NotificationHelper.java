@@ -20,18 +20,18 @@ public class NotificationHelper {
     private static int currentId = 0;
 
     public static void testNotifications(Context context) {
-        createSimpleNotification(context, WEEKLY_CHANNEL_ID, "Weekly report", "Test", MainActivity.class);
+        createSimpleNotification(context, WEEKLY_CHANNEL_ID, "New week", "Check how you manged your budget this week!", MainActivity.class);
 
         Intent testIntent = new Intent(context, MainActivity.class);
-        testIntent.setAction("Test");
+        testIntent.setAction("Invest");
         testIntent.putExtra(Notification.EXTRA_NOTIFICATION_ID, 0);
         PendingIntent snoozePendingIntent =
                 PendingIntent.getActivity(context, 0, testIntent, 0);
 
         ArrayList<NotificationCompat.Action> actions = new ArrayList<NotificationCompat.Action>();
-        actions.add(new NotificationCompat.Action(R.drawable.ic_stat_name, "Test", snoozePendingIntent));
+        actions.add(new NotificationCompat.Action(R.drawable.ic_stat_name, "Invest", snoozePendingIntent));
 
-        NotificationHelper.createActionNotification(context, WEEKLY_CHANNEL_ID, "Action", "Notification with actions", MainActivity.class, actions);
+        NotificationHelper.createActionNotification(context, WEEKLY_CHANNEL_ID, "End of month", "You money left over this month.", MainActivity.class, actions);
     }
 
     public static int createSimpleNotification(Context context, String channelId, String title, String content, Class<?> activity) {
