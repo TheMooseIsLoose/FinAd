@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.LimitLine;
@@ -156,6 +157,8 @@ public class OverviewFragment extends Fragment {
         chart.getAxisLeft().addLimitLine(limit);
         chart.getAxisLeft().setAxisMaximum(1100);
         chart.getAxisLeft().setAxisMinimum(0);
+
+        chart.animateY(500, Easing.Linear);
 
         chart.invalidate(); // refresh
     }

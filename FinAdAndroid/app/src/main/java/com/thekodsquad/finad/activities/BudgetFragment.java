@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.LimitLine;
@@ -118,6 +119,9 @@ public class BudgetFragment extends Fragment {
         budgetChart.setCenterText("2000 EUR");
         budgetChart.setData(data);
         budgetChart.setCenterTextSize(20);
+
+        budgetChart.animateXY(1000, 1000, Easing.EaseInQuad);
+
         budgetChart.invalidate(); // refresh
 
         LineChart savingChart = view.findViewById(R.id.savingChart);
@@ -163,6 +167,8 @@ public class BudgetFragment extends Fragment {
         savingChart.setPinchZoom(false);
 
         savingChart.setData(savingData);
+
+        savingChart.animateY(500, Easing.Linear);
         return view;
     }
 }

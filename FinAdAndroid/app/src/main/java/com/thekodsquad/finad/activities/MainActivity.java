@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        navView.setSelectedItemId(R.id.overview_item);
 
         createNotificationChannel();
     }
