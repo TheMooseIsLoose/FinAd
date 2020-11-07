@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/overview_item"
+        android:icon="@drawable/ic_stat_name"
+        android:title="Overview" />
+    <item
+        android:id="@+id/budget_item"
+        android:title="Budget" />
+    <item
+        android:id="@+id/statistics_item"
+        android:title="Statistics" />
+</menu>
