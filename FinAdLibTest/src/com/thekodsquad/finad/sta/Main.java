@@ -15,6 +15,9 @@ import java.util.Map;
 
 public class Main {
 
+    // 2019-01-04 11:26:21.308411214
+    SimpleDateFormat transactionDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+
     public enum Headers {
         category(0), timestamp(1), amount(6), balance(7), accountNumber(5), entryId(8);
 
@@ -45,19 +48,41 @@ public class Main {
         }
 
         print("Accounts: " + accounts.size());
-        print("");
 
+        Account account = accounts.get("6");
+        Calendar firstTransaction = null;
+        Calendar lastTransaction = null;
+        for (Transaction transaction : account.getTransactions()) {
+            if (firstTransaction == null)
+                firstTransaction = lastTransaction = transaction.getTimestamp();
+            if (transaction.getTimestamp().after(lastTransaction)) {
+                lastTransaction = transaction.getTimestamp();
+            }
+            if (transaction.getTimestamp().before(firstTransaction)) {
+                firstTransaction = transaction.getTimestamp();
+            }
+        }
+
+        print("First transaction: " + transactionDateFormat.format(firstTransaction.getTime()));
+        print("Last transaction: " + transactionDateFormat.format(lastTransaction.getTime()));
+
+        /*
+        print("Calculating income range...");
+        BigDecimal minIncome = new BigDecimal("1000000.00");
+        BigDecimal maxIncome = new BigDecimal(0);
         for (Map.Entry<String, Account> entry : accounts.entrySet()) {
             Account account = entry.getValue();
-
-            //
+            BigDecimal income = account.getSpendingPerCategory("Tulot");
+            minIncome = minIncome.min(income);
+            maxIncome = maxIncome.max(income);
         }
+        print("Max income : €" + maxIncome);
+        print("Min income : €" + minIncome);
+
+         */
     }
 
     private Calendar parseTransactionDate(String timestamp) {
-        // 2019-01-04 11:26:21.308411214
-        SimpleDateFormat transactionDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-
         Calendar transactionDate = Calendar.getInstance();
         try {
             transactionDate.setTime(transactionDateFormat.parse(timestamp));
@@ -85,7 +110,7 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            new Main("E:\\Projects\\TKS-OP\\test_transactions.csv");
+            new Main("E:\\Projects\\TKS-OP\\synt_transactions_10M.csv");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,11 +1,7 @@
 package com.thekodsquad.finad.sta;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Account {
 
@@ -38,13 +34,17 @@ public class Account {
         return transactions.stream()
                 .filter(transaction -> transaction.getCategory().equals(category))
                 .filter(transaction -> transaction.getTimestamp().get(Calendar.YEAR) == year
-                                                     && transaction.getTimestamp().get(Calendar.WEEK_OF_YEAR) == week)
+                        && transaction.getTimestamp().get(Calendar.WEEK_OF_YEAR) == week)
                 .map(Transaction::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public BigDecimal getSpendingPerEntryType(Transaction.EntryType entryType) {
         return (spendingPerEntryType.get(entryType) != null) ? spendingPerEntryType.get(entryType) : new BigDecimal(0);
+    }
+
+    public Set<String> getSpendingCategories() {
+        return spendingPerCategory.keySet();
     }
 
     public void addTransaction(Transaction transaction) {
