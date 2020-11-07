@@ -2,6 +2,7 @@ package com.thekodsquad.finad.sta;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Account {
 
@@ -37,6 +38,15 @@ public class Account {
                         && transaction.getTimestamp().get(Calendar.WEEK_OF_YEAR) == week)
                 .map(Transaction::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public List<Transaction> getTransactionsPerMonth(Calendar lastDate) {
+        Calendar firstDate = Calendar.getInstance();
+        firstDate.set(lastDate.get(Calendar.YEAR), lastDate.get(Calendar.MONTH), 1);
+        return transactions.stream()
+                .filter(transaction -> transaction.getTimestamp().before(lastDate))
+                .filter(transaction -> transaction.getTimestamp().after(firstDate))
+                .collect(Collectors.toList());
     }
 
     public BigDecimal getSpendingPerEntryType(Transaction.EntryType entryType) {

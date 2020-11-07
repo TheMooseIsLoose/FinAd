@@ -1,17 +1,22 @@
 package com.thekodsquad.finad.sta;
 
 import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
+import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 
 public class Main {
 
@@ -49,6 +54,100 @@ public class Main {
 
         print("Accounts: " + accounts.size());
 
+
+        // Get an account
+        Account account = accounts.get("1");
+        // Budget goal
+        BigDecimal budget = new BigDecimal("3000");
+        // Current day, or day of month to start at
+        Calendar currentDay = Calendar.getInstance();
+        List<Transaction> transactionList = account.getTransactionsPerMonth(currentDay);
+        transactionList.sort(Comparator.comparing(Transaction::getTimestamp));
+
+        BigDecimal moneySpent = new BigDecimal(0);
+        for (Transaction transaction : transactionList) {
+            moneySpent = moneySpent.add(transaction.getAmount());
+            print(transactionDateFormat.format(transaction.getTimestamp().getTime()));
+        }
+
+        BigDecimal days = BigDecimal.valueOf(ChronoUnit.DAYS.between(transactionList.get(0).getTimestamp().toInstant(), transactionList.get(transactionList.size() - 1).getTimestamp().toInstant()));
+        BigDecimal moneySpentPerDay = moneySpent.divide(days);
+        Calendar lastDay = Calendar.getInstance();
+        lastDay.set(currentDay.get(Calendar.YEAR), currentDay.get(Calendar.MONTH), currentDay.getActualMaximum(Calendar.DAY_OF_MONTH));
+        BigDecimal daysLeft = BigDecimal.valueOf(ChronoUnit.DAYS.between(currentDay.toInstant(), lastDay.toInstant()));
+        BigDecimal estMoneySpent = daysLeft.multiply(moneySpentPerDay);
+
+        print("Money spent so far: " + moneySpent);
+        print("Days left: " + daysLeft);
+        print("Est money spent from now until eom: " + estMoneySpent);
+        print("Budget for month: " + budget);
+        print("Est money spend this month: " + moneySpent.add(estMoneySpent));
+
+
+        /*
+
+        BufferedWriter writer = Files.newBufferedWriter(Paths.get("./test.csv"));
+        CSVPrinter printer = new CSVPrinter(writer, CSVFormat.DEFAULT.withDelimiter(';').withFirstRecordAsHeader());
+
+        // Header
+        List<String> headerList = new ArrayList<>();
+        headerList.add("accountNumber");
+
+        // Get spending categories
+        LinkedHashMap<String, Integer> categoryMap = new LinkedHashMap<>();
+        int columnIndex = 1;
+        for (Map.Entry<String, Account> entry : accounts.entrySet()) {
+            Account account = entry.getValue();
+            for (String category : account.getSpendingCategories()) {
+                if (categoryMap.get(category) == null) {
+                    categoryMap.put(category, columnIndex);
+                    columnIndex++;
+                }
+            }
+        }
+        headerList.addAll(categoryMap.keySet());
+
+        // Balance
+        headerList.add("balance");
+
+        printer.printRecord(headerList);
+
+        // Add account records
+        List<String> recordList = new ArrayList<>();
+        LinkedHashMap<String, BigDecimal> spendingPerCategoryMap = new LinkedHashMap<>();
+        for (Map.Entry<String, Account> entry : accounts.entrySet()) {
+            recordList.clear();
+            spendingPerCategoryMap.clear();
+            Account account = entry.getValue();
+            recordList.add(String.valueOf(account.getAccountNumber()));
+            for (Transaction transaction : account.getTransactions()) {
+                if (spendingPerCategoryMap.get(transaction.getCategory()) == null) {
+                    spendingPerCategoryMap.put(transaction.getCategory(), transaction.getAmount());
+                } else {
+                    spendingPerCategoryMap.put(transaction.getCategory(), spendingPerCategoryMap.get(transaction.getCategory()).add(transaction.getAmount()));
+                }
+            }
+
+            for (Map.Entry<String, Integer> categoryEntry : categoryMap.entrySet()) {
+                if(spendingPerCategoryMap.get(categoryEntry.getKey()) != null) {
+                    recordList.add(String.valueOf(spendingPerCategoryMap.get(categoryEntry.getKey())));
+                } else {
+                    recordList.add("");
+                }
+            }
+
+            recordList.add(String.valueOf(account.getBalance()));
+            printer.printRecord(recordList);
+        }
+
+
+        printer.flush();
+        printer.close();
+
+
+         */
+
+        /*
         Account account = accounts.get("6");
         Calendar firstTransaction = null;
         Calendar lastTransaction = null;
@@ -71,19 +170,6 @@ public class Main {
             entry.getValue().getSpendingPerCategory("Tulot");
             entry.getValue().getTransactions();
         }
-
-        /*
-        print("Calculating income range...");
-        BigDecimal minIncome = new BigDecimal("1000000.00");
-        BigDecimal maxIncome = new BigDecimal(0);
-        for (Map.Entry<String, Account> entry : accounts.entrySet()) {
-            Account account = entry.getValue();
-            BigDecimal income = account.getSpendingPerCategory("Tulot");
-            minIncome = minIncome.min(income);
-            maxIncome = maxIncome.max(income);
-        }
-        print("Max income : €" + maxIncome);
-        print("Min income : €" + minIncome);
 
          */
     }
