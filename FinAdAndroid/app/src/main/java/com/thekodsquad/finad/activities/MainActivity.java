@@ -37,8 +37,6 @@ import static com.thekodsquad.finad.NotificationHelper.testNotifications;
 public class MainActivity extends AppCompatActivity {
 
 
-    Loader loader = new Loader();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,11 +53,8 @@ public class MainActivity extends AppCompatActivity {
         //Initialize Bottom Navigation View.
         BottomNavigationView navView = findViewById(R.id.bottomNavigationView);
 
-
-        //Initialize NavController.
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         NavController navController = navHostFragment.getNavController();
-        //NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -72,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                     navController.navigate(R.id.budgetFragment);
                 }
                 if (item.getItemId() == R.id.statistics_item) {
-                    navController.navigate(R.id.overviewFragment);
+                    navController.navigate(R.id.statisticsFragment);
                 }
                 return true;
             }
@@ -84,8 +79,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadData(View view) {
-        Intent intent = new Intent(this, OverviewActivity.class);
-        this.startActivity(intent);
+
     }
 
     private void createNotificationChannel() {
