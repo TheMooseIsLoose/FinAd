@@ -119,6 +119,10 @@ public class BudgetFragment extends Fragment {
         budgetChart.setCenterText("2000 EUR");
         budgetChart.setData(data);
         budgetChart.setCenterTextSize(20);
+        budgetChart.getLegend().setEnabled(false);
+        budgetChart.getDescription().setEnabled(false);
+        budgetChart.setExtraLeftOffset(32);
+        budgetChart.setExtraRightOffset(32);
 
         budgetChart.animateXY(1000, 1000, Easing.EaseInQuad);
 
