@@ -5,9 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".BudgetFragment">
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/budgetContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="match_parent">
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
