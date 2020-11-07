@@ -114,7 +114,8 @@ public class OverviewFragment extends Fragment {
         entries.add(new Entry(day, spent.add(spentCurrentDate).floatValue()));
 
         LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
-        dataSet.setColor(getActivity().getColor(R.color.purple_200));
+        dataSet.setColor(getActivity().getColor(R.color.white));
+        dataSet.setLineWidth(getContext().getResources().getInteger(R.integer.line_width));
         dataSet.setDrawCircles(false);
         dataSet.setDrawValues(false);
         dataSet.setDrawFilled(true);
@@ -124,7 +125,7 @@ public class OverviewFragment extends Fragment {
                 return chart.getAxisLeft().getAxisMinimum();
             }
         });
-        dataSet.setFillColor(getActivity().getColor(R.color.purple_500));
+        dataSet.setFillColor(getActivity().getColor(R.color.primary_text));
         //dataSet.setValueTextColor(getColor(R.color.design_default_color_primary)); // styling, ...
 
         LineData lineData = new LineData(dataSet);
@@ -145,7 +146,13 @@ public class OverviewFragment extends Fragment {
 
 
         LimitLine limit = new LimitLine(1000);
-        limit.setLineColor(getActivity().getColor(R.color.design_default_color_primary_dark));
+        limit.setLineColor(getActivity().getColor(R.color.orange_main));
+        limit.enableDashedLine(10, 4f, 0);
+        limit.setLineWidth(getContext().getResources().getInteger(R.integer.limit_line_width));
+
+        limit.setTextColor(getActivity().getColor(R.color.orange_main));
+        limit.setTextSize(16);
+
         chart.getAxisLeft().addLimitLine(limit);
         chart.getAxisLeft().setAxisMaximum(1100);
         chart.getAxisLeft().setAxisMinimum(0);

@@ -136,23 +136,23 @@ public class BudgetFragment extends Fragment {
         savingDataSet.setDrawCircles(false);
         savingDataSet.setDrawValues(false);
 
-        savingDataSet.setColor(getActivity().getColor(R.color.primary_text));
-        savingDataSet.setLineWidth(3);
+        savingDataSet.setColor(getActivity().getColor(R.color.white));
+        savingDataSet.setLineWidth(getContext().getResources().getInteger(R.integer.line_width));
 
-        savingDataSet.setDrawFilled(false);
+        savingDataSet.setDrawFilled(true);
         savingDataSet.setFillFormatter(new IFillFormatter() {
             @Override
             public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {
                 return savingChart.getAxisLeft().getAxisMinimum();
             }
         });
-        savingDataSet.setFillColor(getActivity().getColor(R.color.purple_500));
+        savingDataSet.setFillColor(getActivity().getColor(R.color.primary_text));
 
         LineData savingData = new LineData(savingDataSet);
         LimitLine limit = new LimitLine(750);
         limit.setLineColor(getActivity().getColor(R.color.orange_main));
         limit.enableDashedLine(10, 4f, 0);
-        limit.setLineWidth(2);
+        limit.setLineWidth(getContext().getResources().getInteger(R.integer.limit_line_width));
         limit.setLabel("Goal: 750 EUR");
         limit.setTextColor(getActivity().getColor(R.color.orange_main));
         limit.setTextSize(16);
